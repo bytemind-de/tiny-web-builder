@@ -1,0 +1,110 @@
+/* Theming */
+
+/* Primary color for the background */
+.gjs-one-bg {
+	background-color: #262626;
+}
+
+/* Secondary color for the text color */
+.gjs-two-color {
+	color: #eee;
+}
+
+/* Tertiary color for the background */
+.gjs-three-bg {
+	background-color: #ce9178;
+	color: #fff;
+}
+
+/* Quaternary color for the text color */
+.gjs-four-color,
+.gjs-four-color-h:hover {
+	color: #9cdcfe;
+}
+
+/* Editor */
+
+.gjs-cv-canvas {
+	left: 40px;
+    width: calc(100% - 360px);
+	height: calc(100% - 70px);
+}
+.gjs-pn-headerbar {
+	top: 0;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+.gjs-pn-headerbar.gjs-hidden {
+	display: none;
+}
+.gjs-pn-headerbar .gjs-pn-btn.text-label {
+	font-size: 12px;
+    border: 1px solid currentColor;
+    padding: 1px 6px;
+    min-height: 25px;
+}
+.gjs-pn-commands {
+    top: 40px;
+    width: 40px;
+    height: calc(100% - 40px);
+    box-shadow: none;
+    border-top: 2px solid rgba(0, 0, 0, 0.2);
+    border-right: 2px solid rgba(0, 0, 0, 0.2);
+}
+.gjs-pn-commands .gjs-pn-buttons {
+	flex-wrap: wrap;
+}
+.gjs-pn-commands .gjs-pn-buttons .gjs-pn-btn {
+	margin: 5px 0;
+}
+.gjs-pn-views {
+	top: 40px;
+	right: 0;
+    padding: 5px 21px;
+    width: 320px;
+	border-top: 2px solid rgba(0, 0, 0, 0.2);
+	border-left: 2px solid rgba(0, 0, 0, 0.2);
+}
+.gjs-pn-views-container {
+	top: 42px;
+    height: calc(100% - 42px);
+    width: 320px;
+	box-shadow: none;
+	border-left: 2px solid rgba(0, 0, 0, 0.2);
+}
+.gjs-pn-options {
+	left: 40px;
+    right: unset;
+    top: unset;
+    bottom: 0;
+    padding: 2px 16px;
+    width: calc(100% - 360px);
+}
+.gjs-pn-options .gjs-pn-btn {
+	font-size: 12px;
+	padding: 2px;
+    min-height: 25px;
+    min-width: 25px;
+}
+
+.gjs-frame-wrapper {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.gjs-off-prv {
+    position: fixed;
+    z-index: 100;
+    border-radius: 12px;
+    border: 1px solid #aaa;
+    background: #111;
+    left: calc(50% - 12px);
+    bottom: 12px;
+}
+
+.CodeMirror {
+    height: auto;
+}

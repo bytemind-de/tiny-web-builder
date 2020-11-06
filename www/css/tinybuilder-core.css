@@ -1,0 +1,55 @@
+.tiny-page {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+.tiny-page-header {
+	min-height: 40px;
+	width: 100%;
+	flex: 0 0 40px;
+	background: linear-gradient(45deg, #c7063d, #650f58);
+	color: #f5c074;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	font-size: 15px;
+}
+.tiny-page-content {
+	width: 100%;
+	flex: 1 1 auto;
+	background: #2c2278;
+	color: #fff;
+}
+.tiny-page-footer {
+	min-height: 30px;
+	width: 100%;
+	flex: 0 0 30px;
+	background: #100748;
+	color: #65fafe;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 14px;
+}
+
+.tiny-flex-centered {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.tiny-fullsize {
+	width: 100%;
+	height: 100%;
+}
+
+button.tiny-button {
+	padding: 4px 8px;
+	margin: 4px;
+	cursor: pointer;
+	border: 0;
+	background: #eee;
+	color: #000;
+}
