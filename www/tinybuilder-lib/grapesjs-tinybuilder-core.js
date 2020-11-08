@@ -140,33 +140,10 @@ grapesjs.plugins.add('tinybuilder-core', function(editor, options){
 	
 	//Style manager
 	
-	//not yet ready here?
-	/*editor.StyleManager.addProperty("Typography", {
-		name: "Vertical Align",
-		property: "vertical-align",
-		type: "select",
-		default: "auto",
-		list: [{
-				value: "auto",
-				name: "auto"
-			}, {
-				value: "top !important",
-				name: "top"
-			},
-			{
-				value: "middle !important",
-				name: "middle"
-			},
-			{
-				value: "bottom !important",
-				name: "bottom"
-			}
-		]
-	});*/
-	//editor.StyleManager.getConfig().sectors[3].buildProps.push("vertical-align");
-	editor.StyleManager.getConfig().sectors.forEach(function(sec){
-		if (sec.name == "General"){
-			sec.buildProps.push("overflow");
+	editor.StyleManager.getConfig().sectors.forEach(function(sector){
+		//console.log("sector", sector);
+		if (sector.name == "General"){
+			sector.buildProps.push("overflow");
 			console.log("GrapesJS - Plugin: tinybuilder-core - Added: StyleManager/General/overflow");
 		}
 	});

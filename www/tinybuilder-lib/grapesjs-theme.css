@@ -125,3 +125,18 @@ border-radius: 2px;
     cursor: pointer;
     border: none;
 }
+
+.gjs-sm-sector .gjs-sm-gradient {
+	width: 100%;
+}
+.gjs-sm-sector .gjs-sm-gradient .grp-wrapper {
+	margin: 18px 0;
+}
+.grp-handler-close {
+	background-color: transparent !important;
+    color: currentColor !important;
+}
+.gjs-sm-sector .gjs-sm-property.gjs-sm-property__background-image,
+.gjs-sm-sector .gjs-sm-property.gjs-sm-property__background-image .gjs-field {
+	width: 100%;
+}

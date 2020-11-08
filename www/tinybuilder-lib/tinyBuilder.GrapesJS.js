@@ -12,8 +12,9 @@ if (!('TinyBuilder' in window)){
 		+ '<meta http-equiv="content-type" content="text/html; charset=UTF-8">'
 		+ '<meta name="viewport" content="width=device-width, initial-scale=1">'
 		+ '<title>TinyBuilder Page</title>'
-		+ '[[META]]' 
-		+ '<style>\n' + '* {box-sizing: border-box;}\n html, body {margin: 0; padding: 0; width: 100%; height: 100%;}\n' + '[[CSS]]' 
+		+ '\n[[IMPORTS]]\n' 
+		+ '<style>\n' + '* {box-sizing: border-box;}\n html, body {margin: 0; padding: 0; width: 100%; height: 100%;}\n' 
+		+ '\n[[CSS]]\n' 
 		+ '</style></head><body>' + '[[HTML]]' + '</body></html>';
 	
 	TinyBuilder.GrapesJS.getEditor = function(){
@@ -63,7 +64,7 @@ if (!('TinyBuilder' in window)){
 			});
 		}
 		return TinyBuilder.GrapesJS.getPageTemplate()
-			.replace(/\[\[META\]\]/g, metaData)
+			.replace(/\[\[IMPORTS\]\]/g, metaData)
 			.replace(/\[\[CSS\]\]/g, cssCode)
 			.replace(/\[\[HTML\]\]/g, htmlCode);
 	}
@@ -96,6 +97,8 @@ if (!('TinyBuilder' in window)){
 		alert("coming soon");
 	}
 
+	/* -- CONFIG -- */
+	
 	var grapesJsConfig = {
 		//CONFIG OPTIONS: https://github.com/artf/grapesjs/blob/master/src/editor/config/config.js
 		container : '#page-builder',
@@ -274,6 +277,9 @@ if (!('TinyBuilder' in window)){
 				height: '720px'
 			}]
 		},
+		assetManager: {
+			upload: false
+		},
 		cssIcons: "fonts/font-awesome.min.css",
 		autorender: false,
 		tinyBuilder: {
@@ -293,9 +299,49 @@ if (!('TinyBuilder' in window)){
 		return grapesJsConfig;
 	}
 	
+	/* -- Style manager -- */
+	
+	//INFO: https://github.com/artf/grapesjs/blob/dev/src/style_manager/index.js
+	//		https://github.com/artf/grapesjs/blob/master/test/specs/style_manager/model/Models.js
+	var stylePropertyVertAlign = {
+		name: "Vertical Align",
+		property: "vertical-align",
+		type: "select",
+		default: "auto",
+		list: [
+			{value: "auto", name: "auto"}, 
+			{value: "top !important", name: "top"},
+			{value: "middle !important", name: "middle"},
+			{value: "bottom !important", name: "bottom"}
+		]
+	};
+	var stylePropertyBackgroundString = {
+		name: "Background-image string (beta)",
+		property: "background-image",
+		//type: "color",
+		default: ""
+	};
+	var stylePropertyBackgroundGradient = {
+		name: 'Background-image gradient (beta)',
+		property: 'background-image',
+		type: 'gradient',
+		defaults: 'none'
+	};
+	function styleManagerAddProperties(){
+		//not possible in plugins?
+		//editor.StyleManager.addProperty("typography", stylePropertyVertAlign);
+		editor.StyleManager.addProperty("decorations", stylePropertyBackgroundString);
+		//editor.StyleManager.addProperty('decorations', stylePropertyBackgroundGradient);		//Note: deactivated because buggy
+	}
+	
+	/* -- INIT -- */
+	
 	TinyBuilder.GrapesJS.init = function(){
-		editor = grapesjs.init(grapesJsConfig);
 		if (!grapesJsConfig.tinyBuilder) grapesJsConfig.tinyBuilder = {};
+		editor = grapesjs.init(grapesJsConfig);
+		
+		//styles
+		styleManagerAddProperties();
 		
 		//tiny templates
 		editor.StorageManager.load(["tinyBuilderPageTemplate"], function(res){

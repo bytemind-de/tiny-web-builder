@@ -16,7 +16,7 @@ TinyBuilder.showPagePreview = function(){
 			pagePrev.style.display = "";
 			setTimeout(function(){
 				pagePrev.style.top = "0%";
-			}, 0);
+			}, 10);
 		}
 	}
 }
