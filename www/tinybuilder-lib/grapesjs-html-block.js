@@ -36,7 +36,7 @@ grapesjs.plugins.add('html-block', function(editor, options){
 
     editor.DomComponents.addType('html-code', {
       model: defaultType.model.extend({
-        initToolbar(args) {
+        initToolbar: function(args) {
           _initToolbar.apply(this, args);
 
           var toolbar = this.get("toolbar");

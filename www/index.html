@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<script src="tinybuilder-lib/tinyBuilder.js"></script>
 	
@@ -21,16 +22,64 @@
 			height: 100%;
 			padding: 0;
 			margin: 0;
+			position: relative;
 		}
 		#page-builder {
 			border: none;
 			padding: 0;
 			margin: 0;
+			position: relative;
+			z-index: 0;
+		}
+		#page-preview {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			transition: top .5s;
+			background: #000;
+			color: #fff;
+			z-index: 999;
+		}
+		#page-preview-header {
+			width: 100%;
+			height: 28px;
+			background: #000;
+			color: #fff;
+			border-bottom: 2px solid #222;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-family: sans-serif;
+			font-size: 13px;
+		}
+		#page-preview-header button {
+			background: transparent;
+			color: #fff;
+			border: 0;
+			margin: 5px;
+			cursor: pointer;
+		}
+		#page-preview-iframe {
+			width: 100%;
+			height: calc(100% - 30px);
+			border: 0;
+			background: #fff;
+			color: #000;
 		}
 	</style>
 </head>
 <body>
 	<div id="page-builder"></div>
+	<div id="page-preview" style="display: none;">
+		<div id="page-preview-header">
+			<button class="fa fa-bars" style="visibility: hidden;"></button>
+			<span>TinyBuilder Page Preview</span>
+			<button class="fa fa-close" onclick="TinyBuilder.hidePagePreview();"></button>
+		</div>
+		<iframe id="page-preview-iframe" srcdoc=""></iframe>
+	</div>
 	<script src="index.js"></script>
 </body>
 </html>

@@ -1,3 +1,12 @@
+.tiny-builder {}
+.tiny-builder.tb-body {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	font-family: sans-serif;
+}
+
 .tiny-page {
 	width: 100%;
 	height: 100%;
@@ -9,12 +18,13 @@
 .tiny-page-header {
 	min-height: 40px;
 	width: 100%;
-	flex: 0 0 40px;
+	flex: 0 0 auto;
 	background: linear-gradient(45deg, #c7063d, #650f58);
 	color: #f5c074;
 	display: flex;
 	justify-content: start;
 	align-items: center;
+	flex-wrap: wrap;
 	font-size: 15px;
 }
 .tiny-page-content {
@@ -22,34 +32,106 @@
 	flex: 1 1 auto;
 	background: #2c2278;
 	color: #fff;
+	max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
 }
 .tiny-page-footer {
 	min-height: 30px;
 	width: 100%;
-	flex: 0 0 30px;
+	flex: 0 0 auto;
 	background: #100748;
 	color: #65fafe;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-wrap: wrap;
 	font-size: 14px;
 }
 
-.tiny-flex-centered {
+.tiny-builder .flex {
 	display: flex;
+}
+.tiny-builder .inline-flex {
+	display: inline-flex;
+}
+.tiny-builder .flex-center {
 	justify-content: center;
 	align-items: center;
 }
-.tiny-fullsize {
+.tiny-builder .text-center {
+	text-align: center;
+}
+.tiny-builder .w100 {
 	width: 100%;
+}
+.tiny-builder .h100 {
 	height: 100%;
 }
+.tiny-builder .w50 {
+	width: 50%;
+}
+.tiny-builder .h50 {
+	height: 50%;
+}
+.tiny-builder .w33 {
+	width: 33.3%;
+}
+.tiny-builder .h33 {
+	height: 33.%;
+}
+.tiny-builder .w512px {
+	width: 512px;
+}
+.tiny-builder .h512px {
+	height: 512px;
+}
+.tiny-builder .w320px {
+	width: 320px;
+}
+.tiny-builder .h768px {
+	height: 768px;
+}
+.tiny-builder .maxH100 {
+	max-height: 100%;
+}
+.tiny-builder .maxW100 {
+	max-width: 100%;
+}
+.tiny-builder .scrollY {
+	overflow-y: auto;
+}
+.tiny-builder .scrollX {
+	overflow-x: auto;
+}
+.tiny-builder .radius3 {
+	border-radius: 3px;
+}
+.tiny-builder .radius12 {
+	border-radius: 12px;
+}
+.tiny-builder .back-color-1 {
+	background: #2c2278;
+	color: #fff;
+}
+.tiny-builder .back-color-2 {
+	background: linear-gradient(45deg, #c7063d, #650f58);
+    color: #f5c074;
+}
 
-button.tiny-button {
+button.tiny-button,
+a.tiny-button {
 	padding: 4px 8px;
 	margin: 4px;
 	cursor: pointer;
 	border: 0;
 	background: #eee;
 	color: #000;
+	font-size: 14px;
+    text-decoration: none;
+}
+.tiny-page-header button.tiny-button,
+.tiny-page-header a.tiny-button {
+	background: transparent;
+	color: inherit;
 }

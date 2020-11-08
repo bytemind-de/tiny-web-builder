@@ -19,7 +19,7 @@ grapesjs.plugins.add('tinybuilder-core', function(editor, options){
 			blockAttributes: {"class": "fa fa-object-group"},
 			comp: {
 				tagName: "div",
-				attributes: {"class": "tiny-page"},
+				attributes: {"class": "tiny-builder tiny-page"},
 				components: [{
 					tagName: "div",
 					attributes: {"class": "tiny-page-header"},
@@ -37,12 +37,52 @@ grapesjs.plugins.add('tinybuilder-core', function(editor, options){
 		},
 		tinyDiv1: {
 			label: "Fullsize flex DIV",
-			category: "Basic Elements",
+			category: "Container elements",
 			blockAttributes: {"class": "fa fa-square-o"},
 			comp: {
 				tagName: "div",
-				attributes: {"class": "tiny-fullsize tiny-flex-centered"},
-				components: "DIV"
+				attributes: {"class": "w100 h100 inline-flex flex-center scrollY"},
+				components: "<span>DIV</span>"
+			}
+		},
+		tinyNestedDiv1: {
+			label: "Center DIV",
+			category: "Container elements",
+			blockAttributes: {"class": "fa fa-square-o"},
+			comp: {
+				tagName: "div",
+				attributes: {"class": "w100 h100 inline-flex flex-center scrollY back-color-1"},
+				components: {
+					tagName: "div",
+					attributes: {"class": "maxH100 maxW100"},
+					components: {
+						tagName: "div",
+						attributes: {"class": "w512px h512px radius12 back-color-2"},
+						components: "<span>Center</span>"
+					}
+				}
+			}
+		},
+		tinyButtonFunction: {
+			label: "Button function",
+			category: "Action Elements",
+			blockAttributes: {"class": "fa fa-hand-pointer-o"},
+			comp: {
+				tagName: 'button',
+				//type: 'button',
+				content: 'Button',
+				attributes: {"class": "tiny-button"}
+			}
+		},
+		tinyButtonLink: {
+			label: "Button link",
+			category: "Action Elements",
+			blockAttributes: {"class": "fa fa-link"},
+			comp: {
+				tagName: 'a',
+				type: 'link',
+				content: 'Link',
+				attributes: {"class": "tiny-button"}
 			}
 		},
 		plainDiv: {
@@ -84,17 +124,6 @@ grapesjs.plugins.add('tinybuilder-core', function(editor, options){
 				},
 				traits: ['name', 'placeholder',	{ type: 'checkbox', name: 'required' }]
 			}
-		},
-		tinyButton: {
-			label: "tb-button",
-			category: "Styled Elements",
-			comp: {
-				tagName: 'button',
-				content: 'Button',
-				attributes: {
-					"class": "tiny-button"
-				}
-			}
 		}
 	}
 	
@@ -135,11 +164,12 @@ grapesjs.plugins.add('tinybuilder-core', function(editor, options){
 		]
 	});*/
 	//editor.StyleManager.getConfig().sectors[3].buildProps.push("vertical-align");
-	/*editor.StyleManager.getConfig().sectors.forEach(function(sec){
-		if (sec.name == "Dimension"){
-			sec.buildProps.push("padding");
+	editor.StyleManager.getConfig().sectors.forEach(function(sec){
+		if (sec.name == "General"){
+			sec.buildProps.push("overflow");
+			console.log("GrapesJS - Plugin: tinybuilder-core - Added: StyleManager/General/overflow");
 		}
-	});*/
+	});
 
 	console.log("GrapesJS - Installed plugin: tinybuilder-core");
 });

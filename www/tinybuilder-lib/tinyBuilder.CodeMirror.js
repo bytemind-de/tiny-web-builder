@@ -21,7 +21,7 @@ if (!('TinyBuilder' in window)){
 		if (options.buttons){
 			options.buttons.forEach(function(btnConfig){
 				var btn = document.createElement('button');
-				btn.className = "gjs-btn-prim";
+				btn.className = "gjs-btn-prim gjs-btn-code-view";
 				if (btnConfig.type == "export"){
 					//pre-defined export button
 					btn.textContent = "Export";

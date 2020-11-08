@@ -7,6 +7,14 @@ if (!('TinyBuilder' in window)){
 	TinyBuilder.GrapesJS = {};
 	
 	var editor;
+	var pageTemplate = "";
+	var defaultPageTemplate = '<!DOCTYPE html><html lang="en"><head>' 
+		+ '<meta http-equiv="content-type" content="text/html; charset=UTF-8">'
+		+ '<meta name="viewport" content="width=device-width, initial-scale=1">'
+		+ '<title>TinyBuilder Page</title>'
+		+ '[[META]]' 
+		+ '<style>\n' + '* {box-sizing: border-box;}\n html, body {margin: 0; padding: 0; width: 100%; height: 100%;}\n' + '[[CSS]]' 
+		+ '</style></head><body>' + '[[HTML]]' + '</body></html>';
 	
 	TinyBuilder.GrapesJS.getEditor = function(){
 		return editor;
@@ -24,25 +32,68 @@ if (!('TinyBuilder' in window)){
 		modal.setContent(content);
 		modal.open();
 	}
-	function showCodeWithTemplate(editor){
-		var htmlCode = editor.getHtml();
-		var cssCode = editor.getCss();
-		var fullCode = '<!DOCTYPE html>\n'
-			+ '<html lang="en">\n'
-				+ '<head>\n'
-					+ '\n'
-					+ '<style>\n' 
-						+ cssCode 
-					+ '\n</style>\n'
-				+ '</head>\n'
-				+ '<body>\n'
-					+ htmlCode
-				+ '\n</body>\n'
-			+ '</html>';
-			
-		TinyBuilder.CodeMirror.showCodeModal("Code", fullCode, {
+	
+	TinyBuilder.GrapesJS.getPageTemplate = function(){
+		return pageTemplate || defaultPageTemplate;
+	}
+	TinyBuilder.GrapesJS.setPageTemplate = function(newTemplate){
+		pageTemplate = newTemplate;
+		editor.StorageManager.store({tinyBuilderPageTemplate: newTemplate}, function(){
+			console.log("TinyBuilder - set page template");
+		}, console.error);
+		return pageTemplate;
+	}
+	TinyBuilder.GrapesJS.getPageCodeWithTemplate = function(grEditor){
+		grEditor = grEditor || editor;
+		if (!grEditor) return "";
+		
+		var htmlCode = grEditor.getHtml();
+		var cssCode = grEditor.getCss();
+		var conf = grEditor.getConfig();
+		
+		var metaData = "";
+		if (conf.canvas.scripts){
+			conf.canvas.scripts.forEach(function(sc){
+				metaData += '<script type="text/javascript" src="' + sc + '"></script>\n';
+			});
+		}
+		if (conf.canvas.styles){
+			conf.canvas.styles.forEach(function(st){
+				metaData += '<link rel="stylesheet" type="text/css" href="' + st + '">\n';
+			});
+		}
+		return TinyBuilder.GrapesJS.getPageTemplate()
+			.replace(/\[\[META\]\]/g, metaData)
+			.replace(/\[\[CSS\]\]/g, cssCode)
+			.replace(/\[\[HTML\]\]/g, htmlCode);
+	}
+	function showCodeWithTemplate(grEditor){
+		var fullCode = TinyBuilder.GrapesJS.getPageCodeWithTemplate(grEditor);
+		TinyBuilder.CodeMirror.showCodeModal("Export Page", fullCode, {
 			buttons: [{type: "export"}]
 		});
+	}
+	function showTemplateCode(grEditor){
+		var code = TinyBuilder.GrapesJS.getPageTemplate();
+		TinyBuilder.CodeMirror.showCodeModal("Page Template", code, {
+			buttons: [{
+				name: "Save",
+				fun: function(codeViewer, modal){
+					TinyBuilder.GrapesJS.setPageTemplate(codeViewer.editor.getValue());
+					modal.close();
+				}
+			},{
+				name: "Reset",
+				fun: function(codeViewer, modal){
+					TinyBuilder.GrapesJS.setPageTemplate("");
+					modal.close();
+				}
+			}]
+		});
+	}
+	function importCssAndJs(grEditor){
+		//TinyBuilder.GrapesJS.showModal("Import CSS/JS", content);
+		alert("coming soon");
 	}
 
 	var grapesJsConfig = {
@@ -51,15 +102,17 @@ if (!('TinyBuilder' in window)){
 		height: '100%',
 		width: '100%',
 		canvas: {},
-		components: '',
+		components: '<div class="tiny-builder tb-body"></div>',
+		//stylePrefix: 'tb-',	//NOTE: if you use this remember to adjust all CSS files
 		style: '',
-		protectedCss: '* { box-sizing: border-box; } body {margin: 0; padding: 0; font-family: sans-serif; }',
+		//protectedCss: '* { box-sizing: border-box; } html, body { margin: 0; padding: 0; width: 100%; height: 100%; }',
+		protectedCss: '',
 		panels: { 
 			defaults: [{
 				id: 'headerbar',
 				buttons: [{
 					id: 'new-page',
-					label: 'new',
+					label: 'New',
 					className: 'text-label',
 					command: function(editor){
 						var r = confirm("Clear all content and start new page?");
@@ -67,12 +120,36 @@ if (!('TinyBuilder' in window)){
 							editor.DomComponents.clear();
 							editor.CssComposer.clear();
 							editor.UndoManager.clear();
+							/*editor.StorageManager.store({tinyBuilderPageTemplate: ""}, function(){
+								window.location.reload();
+							}, console.error);*/
+							window.location.reload();
 						}
-					}
+					},
+					attributes: { title: 'Clear all cached data and start default page' }
+				},{
+					id: 'edit-template',
+					label: 'Edit template',
+					className: 'text-label',
+					command: showTemplateCode,
+					attributes: { title: 'Edit page template for export' }
+				},{
+					id: 'import-styles-n-scripts',
+					label: 'Import JS/CSS',
+					className: 'text-label',
+					command: importCssAndJs,
+					attributes: { title: 'Import style sheets and code scripts' }
 				}]
 			},{
 				id: 'commands',
 				buttons: [{
+					id: 'preview',
+					className: 'fa fa-eye',
+					//command: 'preview',
+					command: 'tinybuilder-show-page-preview',
+					context: 'preview',
+					attributes: { title: 'Preview' }
+				},{
 					id: 'save-code',
 					className: 'fa fa-download',
 					command: showCodeWithTemplate,
@@ -87,11 +164,13 @@ if (!('TinyBuilder' in window)){
 				},{
 					id: 'undo',
 					className: 'fa fa-undo',
-					command: function(editor){ editor.runCommand('core:undo'); }
+					command: function(editor){ editor.runCommand('core:undo'); },
+					attributes: { title: 'Undo last action' }
 				},{
 					id: 'redo',
 					className: 'fa fa-repeat',
-					command: function(editor){ editor.runCommand('core:redo'); }
+					command: function(editor){ editor.runCommand('core:redo'); },
+					attributes: { title: 'Redo last removed action' }
 				},{
 					id: 'device-desktop',
 					className: 'fa fa-desktop',
@@ -119,21 +198,28 @@ if (!('TinyBuilder' in window)){
 					context: 'sw-visibility',
 					attributes: { title: 'View components' }
 				},{
-					id: 'preview',
-					className: 'fa fa-eye',
-					command: 'preview',
-					context: 'preview',
-					attributes: { title: 'Preview' }
+					id: 'tiny-logo-text',
+					label: 'TinyBuilder',
+					className: 'text-label plain',
+					//attributes: { title: 'Edit page template for export' },
+					command: function(editor){ TinyBuilder.GrapesJS.showModal("TinyBuilder", "<span>More info soon ...</span>"); }
 				},{
 					id: 'fullscreen',
 					className: 'fa fa-arrows-alt',
-					command: 'fullscreen',
+					//command: 'fullscreen',
+					command: 'tinybuilder-toggle-fullscreen',
 					context: 'fullscreen',
 					attributes: { title: 'Fullscreen' }
 				}]
 			},{
 				id: 'views',
 				buttons: [{
+					id: 'open-blocks',
+					className: 'fa fa-th-large',
+					command: 'open-blocks',
+					togglable: 0,
+					attributes: { title: 'Open Blocks' }
+				},{
 					id: 'open-sm',
 					className: 'fa fa-sliders',
 					command: 'open-sm',
@@ -152,12 +238,6 @@ if (!('TinyBuilder' in window)){
 					active: true,
 					togglable: 0,
 					attributes: { title: 'Open Layer Manager' }
-				},{
-					id: 'open-blocks',
-					className: 'fa fa-th-large',
-					command: 'open-blocks',
-					togglable: 0,
-					attributes: { title: 'Open Blocks' }
 				}]
 			}/*,{
 				id: 'basic-actions',
@@ -194,7 +274,19 @@ if (!('TinyBuilder' in window)){
 				height: '720px'
 			}]
 		},
-		cssIcons: "fonts/font-awesome.min.css"
+		cssIcons: "fonts/font-awesome.min.css",
+		autorender: false,
+		tinyBuilder: {
+			hideTinyCss: false,
+			onLoad: [],
+			addOnLoad: function(fun){
+				grapesJsConfig.tinyBuilder.onLoad.push(fun);
+			}
+		}
+	}
+	//IE11 hacks - actually IE11 doesn't work anyways
+	if (TinyBuilder.isBrowserIE11){
+		grapesJsConfig.storageManager = false;
 	}
 	
 	TinyBuilder.GrapesJS.getConfig = function(){
@@ -203,9 +295,21 @@ if (!('TinyBuilder' in window)){
 	
 	TinyBuilder.GrapesJS.init = function(){
 		editor = grapesjs.init(grapesJsConfig);
+		if (!grapesJsConfig.tinyBuilder) grapesJsConfig.tinyBuilder = {};
+		
+		//tiny templates
+		editor.StorageManager.load(["tinyBuilderPageTemplate"], function(res){
+			if (res && res.tinyBuilderPageTemplate){ 
+				TinyBuilder.GrapesJS.setPageTemplate(res.tinyBuilderPageTemplate);
+			}
+		}, console.error);
 		
 		//commands
 		editor.Commands.add('tinybuilder-show-code-editor', showCodeWithTemplate);
+		editor.Commands.add('tinybuilder-show-page-template', showTemplateCode);
+		editor.Commands.add('tinybuilder-show-page-preview', TinyBuilder.showPagePreview);
+		editor.Commands.add('tinybuilder-toggle-fullscreen', TinyBuilder.toggleFullscreen);
+		editor.Commands.add('tinybuilder-import-css-and-js', importCssAndJs);
 		
 		//events
 		editor.on('change:device', function(){
@@ -222,7 +326,9 @@ if (!('TinyBuilder' in window)){
 			});
 		});
 		editor.SelectorManager.getAll().each(function (selector){
-			if (selector.get('name').indexOf("tiny") == 0){ selector.set({ private: true }); }
+			if (grapesJsConfig.tinyBuilder.hideTinyCss){
+				if (selector.get('name').indexOf("tiny") == 0){ selector.set({ private: true }); }
+			}
 			return selector.set('active', false);
 		});
 		

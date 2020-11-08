@@ -9,8 +9,17 @@ TinyBuilder.defaultCodeTheme = 'vscode-dark'; //GrapesJS default: 'hopscotch'
 var conf = TinyBuilder.GrapesJS.getConfig();
 conf.plugins.push("tinybuilder-core");
 conf.plugins.push("html-block");
-//conf.canvas.scripts = ["js/test.js"];
-conf.canvas.styles = ["css/tinybuilder-core.css"];
+/*if (conf.canvas.scripts){ 
+	conf.canvas.scripts.push("js/test.js");
+}else{
+	conf.canvas.scripts = ["js/test.js"];
+}*/
+if (conf.canvas.styles){ 
+	conf.canvas.styles.push("css/tinybuilder-core.css");
+}else{
+	conf.canvas.styles = ["css/tinybuilder-core.css"];
+}
+conf.tinyBuilder.hideTinyCss = false;
 	
 /* --- START --- */
 

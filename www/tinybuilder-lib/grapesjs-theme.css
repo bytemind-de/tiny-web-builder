@@ -40,12 +40,6 @@
 .gjs-pn-headerbar.gjs-hidden {
 	display: none;
 }
-.gjs-pn-headerbar .gjs-pn-btn.text-label {
-	font-size: 12px;
-    border: 1px solid currentColor;
-    padding: 1px 6px;
-    min-height: 25px;
-}
 .gjs-pn-commands {
     top: 40px;
     width: 40px;
@@ -90,6 +84,22 @@
     min-width: 25px;
 }
 
+.gjs-pn-btn {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gjs-pn-btn.text-label {
+	font-size: 12px;
+    border: 1px solid currentColor;
+    padding: 1px 6px;
+    min-height: 25px;
+}
+.gjs-pn-btn.text-label.plain {
+	border: 0;
+	cursor: default;
+}
+
 .gjs-frame-wrapper {
 	max-width: 100%;
 	max-height: 100%;
@@ -107,4 +117,11 @@
 
 .CodeMirror {
     height: auto;
+}
+.gjs-btn-code-view {
+border-radius: 2px;
+    padding: 5px;
+	margin: 4px;
+    cursor: pointer;
+    border: none;
 }
