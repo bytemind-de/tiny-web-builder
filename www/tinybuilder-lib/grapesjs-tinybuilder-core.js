@@ -11,7 +11,20 @@ grapesjs.plugins.add('tinybuilder-core', function(editor, options){
 		run: function(editor){ editor.setDevice('Mobile'); }
 	});
 	
-	//Blocks + Components
+	//Components
+	var tinyCoreComponents = {
+		divInnerFlex1: {
+			tagName: "div",
+			attributes: {"class": "maxH100 maxW100 margin8 minH320px minW320px flex-grow back-color-2"},
+			components: "<span>Inner DIV</span>"
+		},
+		divInnerFlex2: {
+			tagName: "div",
+			attributes: {"class": "maxH100 maxW100 margin8 minH320px minW320px w25 h25 back-color-3"},
+			components: "<span>Inner DIV</span>"
+		}
+	}
+	//Blocks
 	var tinyCoreBlocks = {
 		tinyAppView1: {
 			label: "Simple app view",
@@ -57,10 +70,30 @@ grapesjs.plugins.add('tinybuilder-core', function(editor, options){
 					attributes: {"class": "maxH100 maxW100"},
 					components: {
 						tagName: "div",
-						attributes: {"class": "w512px h512px radius12 back-color-2"},
+						attributes: {"class": "minH320px minW320px back-color-2"},
 						components: "<span>Center</span>"
 					}
 				}
+			}
+		},
+		tinyNestedDiv2: {
+			label: "Container with DIVs filling space",
+			category: "Container elements",
+			blockAttributes: {"class": "fa fa-th"},
+			comp: {
+				tagName: "div",
+				attributes: {"class": "w100 maxH100 maxW100 padding8 flex flex-wrap scrollY"},
+				components: [tinyCoreComponents.divInnerFlex1, tinyCoreComponents.divInnerFlex1]
+			}
+		},
+		tinyNestedDiv3: {
+			label: "Container with DIVs fixed, centered",
+			category: "Container elements",
+			blockAttributes: {"class": "fa fa-th"},
+			comp: {
+				tagName: "div",
+				attributes: {"class": "w100 maxH100 maxW100 padding8 flex flex-center flex-wrap scrollY"},
+				components: [tinyCoreComponents.divInnerFlex2, tinyCoreComponents.divInnerFlex2]
 			}
 		},
 		tinyButtonFunction: {

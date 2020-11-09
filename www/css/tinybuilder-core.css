@@ -55,12 +55,21 @@
 .tiny-builder .inline-flex {
 	display: inline-flex;
 }
+.tiny-builder .flex-wrap {
+	flex-wrap: wrap;
+}
 .tiny-builder .flex-center {
 	justify-content: center;
 	align-items: center;
 }
 .tiny-builder .text-center {
 	text-align: center;
+}
+.tiny-builder .flex-grow {
+	flex: 1 1 auto;
+}
+.tiny-builder .flex-static {
+	flex: 0 0 auto;
 }
 .tiny-builder .w100 {
 	width: 100%;
@@ -80,6 +89,12 @@
 .tiny-builder .h33 {
 	height: 33.%;
 }
+.tiny-builder .w25 {
+	width: 25%;
+}
+.tiny-builder .h25 {
+	height: 25%;
+}
 .tiny-builder .w512px {
 	width: 512px;
 }
@@ -98,6 +113,24 @@
 .tiny-builder .maxW100 {
 	max-width: 100%;
 }
+.tiny-builder .minH320px {
+	min-height: 320px;
+}
+.tiny-builder .minW320px {
+	min-width: 320px;
+}
+.tiny-builder .padding8 {
+	padding: 8px;
+}
+.tiny-builder .padding16 {
+	padding: 16px;
+}
+.tiny-builder .margin8 {
+	margin: 8px;
+}
+.tiny-builder .margin16 {
+	margin: 16px;
+}
 .tiny-builder .scrollY {
 	overflow-y: auto;
 }
@@ -115,6 +148,14 @@
 	color: #fff;
 }
 .tiny-builder .back-color-2 {
+	background: #65fafe;
+	color: #000;
+}
+.tiny-builder .back-color-3 {
+	background: #9594b1;
+	color: #000;
+}
+.tiny-builder .back-color-grad-1 {
 	background: linear-gradient(45deg, #c7063d, #650f58);
     color: #f5c074;
 }
