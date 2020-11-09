@@ -205,7 +205,7 @@ if (!('TinyBuilder' in window)){
 					label: 'TinyBuilder',
 					className: 'text-label plain',
 					//attributes: { title: 'Edit page template for export' },
-					command: function(editor){ TinyBuilder.GrapesJS.showModal("TinyBuilder", "<span>More info soon ...</span>"); }
+					command: function(editor){ TinyBuilder.GrapesJS.showModal("TinyBuilder", "<p>Created by FQ/Bytemind.de</p><p>Based on:</p><ul><li>GrapesJS</li><li>CodeMirror</li></ul><p>More info soon ...</p>"); }
 				},{
 					id: 'fullscreen',
 					className: 'fa fa-arrows-alt',
@@ -258,6 +258,57 @@ if (!('TinyBuilder' in window)){
 				}]
 			}*/]
 		},
+		//Configurations for Style Manager
+		styleManager: {
+			sectors: [{
+				name: 'General',
+				open: false,
+				buildProps: [
+				  'float', 'display', 'position', 'top', 'right', 'left', 'bottom'
+				]
+			},{
+				name: 'Flex',
+				open: false,
+				buildProps: [
+				  'flex-direction', 'flex-wrap', 'justify-content', 'align-items', 'align-content', 'order',
+				  'flex-basis', 'flex-grow', 'flex-shrink', 'align-self'
+				]
+			},{
+				name: 'Dimension',
+				open: false,
+				buildProps: [
+				  'width', 'height', 'max-width', 'max-height', 'min-width', 'min-height',
+				  'margin', 'padding'
+				]
+			},{
+				name: 'Typography',
+				open: false,
+				buildProps: [
+				  'font-family', 'font-size', 'font-weight', 'letter-spacing',
+				  'color', 'line-height', 'text-align', 'text-shadow'
+				],
+				properties: [{
+					property: 'text-align',
+					list: [
+						{ value: 'left', className: 'fa fa-align-left' },
+						{ value: 'center', className: 'fa fa-align-center' },
+						{ value: 'right', className: 'fa fa-align-right' },
+						{ value: 'justify', className: 'fa fa-align-justify' }
+					]
+				}]
+			},{
+				name: 'Decorations',
+				open: false,
+				buildProps: [
+				  'border-radius-c', 'background-color', 'border-radius', 'border',
+				  'box-shadow', 'background'
+				]
+			},{
+				name: 'Extra',
+				open: false,
+				buildProps: ['transition', 'perspective', 'transform']
+			}]
+		},
 		plugins: [],
 		pluginsOpts: {},
 		showDevices: false,
@@ -265,12 +316,12 @@ if (!('TinyBuilder' in window)){
 			devices: [{
 				name: 'Desktop',
 				width: '', 				// default size
-				//widthMedia: '1024'	// ??
 				height: ''
 			},{
 				name: 'Tablet',
-				width: '1024px',
-				height: '768px'
+				width: '768px',
+				//widthMedia: '768'	//NOTE: when a device is selected media queries will be generated with this value
+				height: '1024px'
 			},{
 				name: 'Mobile',
 				width: '360px',
@@ -333,6 +384,9 @@ if (!('TinyBuilder' in window)){
 		editor.StyleManager.addProperty("decorations", stylePropertyBackgroundString);
 		//editor.StyleManager.addProperty('decorations', stylePropertyBackgroundGradient);		//Note: deactivated because buggy
 	}
+	function styleManagerModifyProperties(){
+		editor.StyleManager.getProperty("general", "display").attributes.list.push({value: "inline-flex"});
+	}
 	
 	/* -- INIT -- */
 	
@@ -341,6 +395,7 @@ if (!('TinyBuilder' in window)){
 		editor = grapesjs.init(grapesJsConfig);
 		
 		//styles
+		styleManagerModifyProperties();
 		styleManagerAddProperties();
 		
 		//tiny templates
